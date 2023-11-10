@@ -130,52 +130,90 @@ public class InventoryWithSlot : IInventory
 
     public bool TryToAddToSlot2(object sender, IInventorySlot slot, IInventoryItem item)
     {
-        if (slot.isFull) return false;
-        if(slot.isEmpty) return TryToAddToSlot(sender, slot, item);
+        //if (slot.isFull) return false;
+        if (slot.isEmpty) return TryToAddToSlot(sender, slot, item);
 
         bool myType = slot.itemType == item.type;
         if (!myType)
         {
             return false;
         }
-
+        Debug.Log($"                 3      ");
         return TryToAddToSlot(sender, slot, item);
     }
 
+    //public bool TryToAddToSlot2(object sender, IInventorySlot slot, IInventoryItem item)
+    //{
+
+    //}
+
     public bool TryToAddToSlot(object sender, IInventorySlot slot, IInventoryItem item)
     {
-        var fits = slot.amount + item.state.amount <= item.info.maxItemsInInventorySlot;
-        //add items to slot
-        var amountToAdd = fits
-                        ? item.state.amount
-                        : item.info.maxItemsInInventorySlot - slot.amount;
-        var amountLeft = item.state.amount - amountToAdd;
+        //var fits = slot.amount + item.state.amount <= item.info.maxItemsInInventorySlot;
+        ////add items to slot
+        //var amountToAdd = fits
+        //                ? item.state.amount
+        //                : item.info.maxItemsInInventorySlot - slot.amount;
+        //var amountLeft = item.state.amount - amountToAdd;
 
-        var clonedItem = item.Clone();
-        clonedItem.state.amount = amountToAdd;
+        //var clonedItem = item.Clone();
+        //clonedItem.state.amount = amountToAdd;
 
         if (slot.isEmpty)
         {
-            Console.WriteLine($"Fill new Slot. Slot: {slot.GetHashCode()}, add: {clonedItem.state.amount}");
-            slot.SetItem(clonedItem);
+            slot.SetItem(item);
         }
         else
         {
-            slot.item.state.amount += amountToAdd;
+            slot.item.state.amount ++;
         }
 
-        Console.WriteLine($"Item added to inventory. ItemType: {item.type}, amount: {amountToAdd}");
-        OnInventoryItemAddedEvent?.Invoke(sender, item, amountToAdd);
+        //Console.WriteLine($"Item added to inventory. ItemType: {item.type}, amount: {amountToAdd}");
+        OnInventoryItemAddedEvent?.Invoke(sender, item, 1);
         OnInventoryStateChangedEvent?.Invoke(sender);
+        return true;
+        //if (amountLeft <= 0)
+        //{
+        //    return true;
+        //}
 
-        if (amountLeft <= 0)
-        {
-            return true;
-        }
-
-        item.state.amount = amountLeft;
-        return TryToAdd(sender, item);
+        //item.state.amount = amountLeft;
+        //return TryToAdd(sender, item);
     }//
+    //public bool TryToAddToSlot(object sender, IInventorySlot slot, IInventoryItem item)
+    //{
+    //    var fits = slot.amount + item.state.amount <= item.info.maxItemsInInventorySlot;
+    //    //add items to slot
+    //    var amountToAdd = fits
+    //                    ? item.state.amount
+    //                    : item.info.maxItemsInInventorySlot - slot.amount;
+    //    var amountLeft = item.state.amount - amountToAdd;
+
+    //    var clonedItem = item.Clone();
+    //    clonedItem.state.amount = amountToAdd;
+
+    //    if (slot.isEmpty)
+    //    {
+    //        Console.WriteLine($"Fill new Slot. Slot: {slot.GetHashCode()}, add: {clonedItem.state.amount}");
+    //        slot.SetItem(clonedItem);
+    //    }
+    //    else
+    //    {
+    //        slot.item.state.amount += amountToAdd;
+    //    }
+
+    //    Console.WriteLine($"Item added to inventory. ItemType: {item.type}, amount: {amountToAdd}");
+    //    OnInventoryItemAddedEvent?.Invoke(sender, item, amountToAdd);
+    //    OnInventoryStateChangedEvent?.Invoke(sender);
+
+    //    if (amountLeft <= 0)
+    //    {
+    //        return true;
+    //    }
+
+    //    item.state.amount = amountLeft;
+    //    return TryToAdd(sender, item);
+    //}//
 
     public void Remove(object sender, Type itemType, int amount = 1)
     {

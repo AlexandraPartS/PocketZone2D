@@ -11,7 +11,7 @@ public class UIInventoryTester : MonoBehaviour
     private IInventoryItemInfo _appleInfo;
     private IInventoryItemInfo _pepperInfo;
     private UIInventorySlot[] _uislots;
-    private int capacity = 10;
+    private int capacity = 5;
 
     public UIInventoryTester(InventoryItemInfo appleInfo, InventoryItemInfo pepperInfo, UIInventorySlot[] uislots)
     {

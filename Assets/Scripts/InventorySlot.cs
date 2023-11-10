@@ -19,7 +19,9 @@ public class InventorySlot : IInventorySlot
             return;
 
         this.item = item;
-        this.capacity = item.info.maxItemsInInventorySlot;
+        Debug.Log($"                 4      ");
+        Debug.Log($"                 {item}  +  {item.info.description}      ");
+        //this.capacity = item.info.maxItemsInInventorySlot;
     }
 
     public void Clear()
